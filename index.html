@@ -23,11 +23,37 @@
   @keyframes floatUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
   @keyframes pulseWa { 0%,100% { box-shadow: 0 8px 22px rgba(37,211,102,.35); } 50% { box-shadow: 0 8px 30px rgba(37,211,102,.6); } }
   ::selection { background: #c89a4a; color: #fff; }
+
+  .mh-burger { display: none; }
+  .mh-wa-text { display: inline; }
+
+  @media (max-width: 900px) {
+    .mh-nav { position: fixed; top: 70px; left: 0; right: 0; flex-direction: column; align-items: flex-start; gap: 0; background: #f8f3ea; border-bottom: 1px solid rgba(20,50,78,.08); box-shadow: 0 14px 24px rgba(20,50,78,.1); max-height: 0; overflow: hidden; transition: max-height .28s ease; }
+    .mh-nav.mh-open { max-height: 340px; }
+    .mh-nav a { width: 100%; padding: 15px 22px; border-top: 1px solid rgba(20,50,78,.06); }
+    .mh-burger { display: flex; }
+    .mh-header-inner { padding: 0 16px; }
+  }
+
+  @media (max-width: 640px) {
+    header { height: 62px; }
+    .mh-header-inner { height: 62px; }
+    .mh-nav { top: 62px; }
+    .mh-wa-text { display: none; }
+    section { scroll-margin-top: 66px; }
+    #inicio { min-height: auto; padding: 96px 16px 56px; }
+    #inicio > div:last-child { display: none; }
+    .mh-gallery { grid-template-columns: 1fr 1fr !important; grid-template-rows: 130px 130px 130px !important; }
+    .mh-gallery > div:first-child { grid-row: span 1 !important; grid-column: span 2 !important; height: 200px; }
+    .mh-detail, .mh-loc { grid-template-columns: 1fr !important; gap: 26px !important; }
+    .mh-detail > div:last-child > div { position: static !important; }
+    section, #suites, #suite-mahalo, #estufa-ii > div, #avaliacoes, #localizacao { padding-left: 16px !important; padding-right: 16px !important; }
+  }
 </style>
 </helmet>
 
 <header style="position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(248,243,234,.86);backdrop-filter:blur(12px);border-bottom:1px solid rgba(20,50,78,.08);">
-  <div style="max-width:1200px;margin:0 auto;padding:0 22px;height:70px;display:flex;align-items:center;justify-content:space-between;gap:16px;">
+  <div class="mh-header-inner" style="max-width:1200px;margin:0 auto;padding:0 22px;height:70px;display:flex;align-items:center;justify-content:space-between;gap:16px;">
     <a href="#inicio" style="display:flex;align-items:center;gap:11px;color:#14324e;">
       <img src="assets/logo-mahalo.png" alt="Suítes Mahalo" style="width:48px;height:48px;border-radius:50%;object-fit:cover;flex:none;" />
       <div style="display:flex;flex-direction:column;line-height:1;">
@@ -35,17 +61,24 @@
         <span style="font-size:10.5px;letter-spacing:.22em;color:#c89a4a;font-weight:700;text-transform:uppercase;margin-top:3px;">Hospedagem</span>
       </div>
     </a>
-    <nav style="display:flex;align-items:center;gap:26px;" class="mh-nav">
-      <a href="#inicio" style="font-weight:600;font-size:14.5px;color:#14324e;">Início</a>
-      <a href="#suites" style="font-weight:600;font-size:14.5px;color:#14324e;">Suítes</a>
-      <a href="#avaliacoes" style="font-weight:600;font-size:14.5px;color:#14324e;">Avaliações</a>
-      <a href="#localizacao" style="font-weight:600;font-size:14.5px;color:#14324e;">Localização</a>
-      <a href="#contato" style="font-weight:600;font-size:14.5px;color:#14324e;">Contato</a>
+    <nav style="display:flex;align-items:center;gap:26px;" class="{{ navClass }}">
+      <a href="#inicio" style="font-weight:600;font-size:14.5px;color:#14324e;" onClick="{{ closeNav }}">Início</a>
+      <a href="#suites" style="font-weight:600;font-size:14.5px;color:#14324e;" onClick="{{ closeNav }}">Suítes</a>
+      <a href="#avaliacoes" style="font-weight:600;font-size:14.5px;color:#14324e;" onClick="{{ closeNav }}">Avaliações</a>
+      <a href="#localizacao" style="font-weight:600;font-size:14.5px;color:#14324e;" onClick="{{ closeNav }}">Localização</a>
+      <a href="#contato" style="font-weight:600;font-size:14.5px;color:#14324e;" onClick="{{ closeNav }}">Contato</a>
     </nav>
-    <a href="{{ waGeral }}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:8px;background:#25d366;color:#fff;font-weight:700;font-size:14px;padding:11px 18px;border-radius:999px;flex:none;box-shadow:0 6px 16px rgba(37,211,102,.32);">
-      <svg width="17" height="17" viewBox="0 0 24 24" fill="#fff"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.02h-.01a8.2 8.2 0 0 1-4.18-1.15l-.3-.18-3.11.82.83-3.04-.2-.31a8.16 8.16 0 0 1-1.26-4.37c0-4.54 3.7-8.23 8.24-8.23 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.82c0 4.54-3.69 8.24-8.24 8.24zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43l-.48-.01c-.17 0-.43.06-.66.31-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29z"/></svg>
-      WhatsApp
-    </a>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <a href="{{ waGeral }}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:8px;background:#25d366;color:#fff;font-weight:700;font-size:14px;padding:11px 18px;border-radius:999px;flex:none;box-shadow:0 6px 16px rgba(37,211,102,.32);">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="#fff"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.02h-.01a8.2 8.2 0 0 1-4.18-1.15l-.3-.18-3.11.82.83-3.04-.2-.31a8.16 8.16 0 0 1-1.26-4.37c0-4.54 3.7-8.23 8.24-8.23 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.82c0 4.54-3.69 8.24-8.24 8.24zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43l-.48-.01c-.17 0-.43.06-.66.31-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29z"/></svg>
+        <span class="mh-wa-text">WhatsApp</span>
+      </a>
+      <button onClick="{{ toggleNav }}" aria-label="Abrir menu" class="mh-burger" style="flex-direction:column;justify-content:center;align-items:center;gap:5px;width:38px;height:38px;border:none;background:transparent;cursor:pointer;flex:none;padding:0;">
+        <span style="display:block;width:22px;height:2.5px;background:#14324e;border-radius:2px;transition:transform .2s;{{ barTop }}"></span>
+        <span style="display:block;width:22px;height:2.5px;background:#14324e;border-radius:2px;transition:opacity .2s;{{ barMid }}"></span>
+        <span style="display:block;width:22px;height:2.5px;background:#14324e;border-radius:2px;transition:transform .2s;{{ barBot }}"></span>
+      </button>
+    </div>
   </div>
 </header>
 
@@ -140,7 +173,7 @@
     </div>
   </div>
   <!-- galeria -->
-  <div style="display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:170px 170px;gap:10px;border-radius:20px;overflow:hidden;">
+  <div class="mh-gallery" style="display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:170px 170px;gap:10px;border-radius:20px;overflow:hidden;">
     <div style="grid-row:span 2;background:url('{{ s1Gal.0 }}') center/cover;cursor:pointer;" onClick="{{ open1a }}"></div>
     <div style="background:url('{{ s1Gal.1 }}') center/cover;cursor:pointer;" onClick="{{ open1b }}"></div>
     <div style="background:url('{{ s1Gal.2 }}') center/cover;cursor:pointer;" onClick="{{ open1c }}"></div>
@@ -215,7 +248,7 @@
       </div>
     </div>
   </div>
-  <div style="display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:170px 170px;gap:10px;border-radius:20px;overflow:hidden;">
+  <div class="mh-gallery" style="display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:170px 170px;gap:10px;border-radius:20px;overflow:hidden;">
     <div style="grid-row:span 2;background:url('{{ s2Gal.0 }}') center/cover;cursor:pointer;" onClick="{{ open2a }}"></div>
     <div style="background:url('{{ s2Gal.1 }}') center/cover;cursor:pointer;" onClick="{{ open2b }}"></div>
     <div style="background:url('{{ s2Gal.2 }}') center/cover;cursor:pointer;" onClick="{{ open2c }}"></div>
@@ -380,7 +413,7 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:900}}">
 class Component extends DCLogic {
-  state = { lbOpen: false, lbSrc: "" };
+  state = { lbOpen: false, lbSrc: "", navOpen: false };
 
   openLb(src) { this.setState({ lbOpen: true, lbSrc: src }); }
 
@@ -421,6 +454,12 @@ class Component extends DCLogic {
       s1Gal, s2Gal,
       lbOpen: this.state.lbOpen, lbSrc: this.state.lbSrc,
       closeLb: () => this.setState({ lbOpen: false }),
+      navClass: "mh-nav" + (this.state.navOpen ? " mh-open" : ""),
+      toggleNav: () => this.setState({ navOpen: !this.state.navOpen }),
+      closeNav: () => this.setState({ navOpen: false }),
+      barTop: this.state.navOpen ? "transform:translateY(7.5px) rotate(45deg);" : "",
+      barMid: this.state.navOpen ? "opacity:0;" : "",
+      barBot: this.state.navOpen ? "transform:translateY(-7.5px) rotate(-45deg);" : "",
       liftIn: lift(true), liftOut: lift(false),
       cardIn: card(true), cardOut: card(false),
       open1a: mk(s1Gal, 0), open1b: mk(s1Gal, 1), open1c: mk(s1Gal, 2), open1d: mk(s1Gal, 3), open1e: mk(s1Gal, 4),
